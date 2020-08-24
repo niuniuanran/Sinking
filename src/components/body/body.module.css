@@ -1,7 +1,10 @@
-/*.body {*/
-/*    height: 50vh;*/
-/*    width: 70vw;*/
-/*    overflow-y: scroll;*/
-/*    overflow-x: hidden;*/
-/*    background-color: white;*/
-/*}*/
+.body {
+    position: fixed;
+    bottom: 2rem;
+    width: 80vw;
+    left: 10vw;
+    height: 72vh;
+    background-color: rgba(255,255,255,0.2);
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
