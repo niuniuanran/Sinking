@@ -19,7 +19,7 @@
 
 .titles{
     display: inline-block;
-    animation: float 3s linear infinite;
+    animation: float 4s linear infinite;
     position: relative;
     top: 1rem;
 }
