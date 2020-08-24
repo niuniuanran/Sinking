@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import {Card, CardContent, Typography} from "@material-ui/core";
 
 import ExampleTable from "./ExampleTable";
+import PeopleTable from "../table/PeopleTable";
 
 // import data from "../../data";
 
@@ -16,8 +17,7 @@ import ExampleTable from "./ExampleTable";
 //  https://www.kaggle.com/c/titanic/data
 
 function Task() {
-    // const [peopleReader, setPeopleReader] = useState(null);
-    const [people, setPeople] = useState(null);
+    const [people, setPeople] = useState([]);
     useEffect(() => {
         fetch("https://public.opendatasoft.com/api/records/1.0/search/?dataset=titanic-passengers&q=&rows=1000")
             .then(res => res.json())
@@ -43,11 +43,7 @@ function Task() {
                     </Typography>
                 </CardContent>
             </Card>
-            <div>
-                People:
-                {people && people.map((p,i)=><span key={i}>{p.fields.fare}</span>)}
-                People ends
-            </div>
+            {people && <PeopleTable peopleRecord={people}/>}
             { /* Replace this example table with your solution below.
                 You are more than welcome to organise your code into different files where appropriate. */}
             <ExampleTable/>
