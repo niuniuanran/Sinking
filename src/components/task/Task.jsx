@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, {useEffect, useState} from "react";
 import {Card, CardContent, Typography} from "@material-ui/core";
 
 import ExampleTable from "./ExampleTable";
@@ -15,33 +15,44 @@ import ExampleTable from "./ExampleTable";
 // on Kaggle here
 //  https://www.kaggle.com/c/titanic/data
 
-class Task extends Component {
+function Task() {
+    // const [peopleReader, setPeopleReader] = useState(null);
+    const [people, setPeople] = useState(null);
+    useEffect(() => {
+        fetch("https://public.opendatasoft.com/api/records/1.0/search/?dataset=titanic-passengers&q=&rows=1000")
+            .then(res => res.json())
+            .then(json=>{setPeople(()=>json.records);console.log(json.records)});
+    }, []);
 
-    render() {
-        return(
+    return (
+        <div>
+            <Card>
+                <CardContent>
+                    <Typography>
+                        <b>access the data. </b>
+                    </Typography>
+
+                    <Typography>
+                        If you have trouble with doing this, you can access some data through by importing the
+                        "data".
+                    </Typography>
+
+                    <Typography>
+                        An example table with some random data has been provided.
+                        Replace the example table with your solution below.
+                    </Typography>
+                </CardContent>
+            </Card>
             <div>
-                <Card>
-                    <CardContent>
-                        <Typography>
-                            <b>Fetch the following URL in the comments to access the data. </b>
-                        </Typography>
-
-                        <Typography>
-                            If you have trouble with doing this, you can access some data through by importing the "data".
-                        </Typography>
-
-                        <Typography>
-                            An example table with some random data has been provided.
-                            Replace the example table with your solution below.
-                        </Typography>
-                    </CardContent>
-                </Card>
-                { /* Replace this example table with your solution below. 
-                You are more than welcome to organise your code into different files where appropriate. */}
-                <ExampleTable />
+                People:
+                {people && people.map((p,i)=><span key={i}>{p.fields.fare}</span>)}
+                People ends
             </div>
-        );
-    }
+            { /* Replace this example table with your solution below.
+                You are more than welcome to organise your code into different files where appropriate. */}
+            <ExampleTable/>
+        </div>
+    );
 };
 
 export default Task;
