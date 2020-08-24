@@ -4,7 +4,6 @@ import Grid from "@material-ui/core/Grid";
 import EqualizerRoundedIcon from '@material-ui/icons/EqualizerRounded';
 import PeopleIcon from '@material-ui/icons/People';
 import IconButton from "@material-ui/core/IconButton";
-import Body from "../body/Body";
 
 export default function HeadBar({onButtonSwitch: onPanelSwitch}) {
     const [onPeoplePanel, setOnPeoplePanel] = useState(true);
