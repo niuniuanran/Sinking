@@ -1,7 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import style from './body.module.css'
-import PeopleTable from "../table/PeopleTable";
 import CircularProgress from "@material-ui/core/CircularProgress";
+
+import PeopleTable from "../content/PeopleTable";
+import Stats from "../content/Stats";
 
 export default function Body({currentPanel}) {
     const [people, setPeople] = useState([]);
@@ -20,6 +22,6 @@ export default function Body({currentPanel}) {
     return <div className={style.body}>
         {loading && <CircularProgress className={style.loading}/>}
         {!loading && currentPanel === 'people' && <PeopleTable peopleRecord={people}/>}
-        {!loading && currentPanel === 'stats' && <div>Stats</div>}
+        {!loading && currentPanel === 'stats' && <Stats/>}
     </div>
 }

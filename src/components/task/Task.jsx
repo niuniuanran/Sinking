@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import {Card, CardContent, Typography} from "@material-ui/core";
 
 import ExampleTable from "./ExampleTable";
-import PeopleTable from "../table/PeopleTable";
+import PeopleTable from "../content/PeopleTable";
 
 // import data from "../../data";
 
@@ -44,7 +44,7 @@ function Task() {
                 </CardContent>
             </Card>
             {people && <PeopleTable peopleRecord={people}/>}
-            { /* Replace this example table with your solution below.
+            { /* Replace this example content with your solution below.
                 You are more than welcome to organise your code into different files where appropriate. */}
             <ExampleTable/>
         </div>

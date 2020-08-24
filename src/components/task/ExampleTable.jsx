@@ -28,7 +28,7 @@ const exampleData = [
     },
 ];
 
-// get table headings
+// get content headings
 const tableHeadings = Object.keys(exampleData[0]);
 
 const ExampleTable = () => (
