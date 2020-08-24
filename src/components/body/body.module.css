@@ -4,7 +4,10 @@
     width: 80vw;
     left: 10vw;
     height: 72vh;
-    background-color: rgba(255,255,255,0.2);
-    overflow-y: scroll;
-    overflow-x: hidden;
+    background-color: rgba(255, 255, 255, 0.5);
+    overflow: scroll;
+}
+
+.loading {
+    padding: 32vh 37vw;
 }
