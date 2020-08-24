@@ -1,11 +1,13 @@
-import React from 'react';
+import React, {useState} from 'react';
 import style from './head.module.css'
 import Grid from "@material-ui/core/Grid";
 import EqualizerRoundedIcon from '@material-ui/icons/EqualizerRounded';
 import PeopleIcon from '@material-ui/icons/People';
 import IconButton from "@material-ui/core/IconButton";
+import Body from "../body/Body";
 
-export default function HeadBar() {
+export default function HeadBar({onButtonSwitch: onPanelSwitch}) {
+    const [onPeoplePanel, setOnPeoplePanel] = useState(true);
     return <div>
         <div className={style.headBar}>
             <Grid container>
@@ -15,12 +17,22 @@ export default function HeadBar() {
                 </Grid>
                 <Grid item sm={12} md={6} container spacing={10} className={style.buttons}>
                     <Grid item xs={6}>
-                        <IconButton size={"medium"} className={`${style.headButton} ${style.peopleButton}`}>
+                        <IconButton size={"medium"} className={`${style.headButton} ${onPeoplePanel && style.activeIcon}`}
+                                    onClick={() => {
+                                        setOnPeoplePanel(() => true);
+                                        onPanelSwitch('people')
+                                    }}
+                                    title={"See people on Titanic"}>
                             <PeopleIcon/>
                         </IconButton>
                     </Grid>
                     <Grid item xs={6}>
-                        <IconButton size={'medium'} className={style.headButton}>
+                        <IconButton size={'medium'} className={`${style.headButton} ${!onPeoplePanel && style.activeIcon}`}
+                                    onClick={() => {
+                                        setOnPeoplePanel(() => false);
+                                        onPanelSwitch('stats')
+                                    }}
+                                    title={"View Titanic statistics"}>
                             <EqualizerRoundedIcon/>
                         </IconButton>
                     </Grid>

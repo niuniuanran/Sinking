@@ -40,8 +40,10 @@
     width: 4rem;
     height: 4rem;
 }
-.peopleButton{
-    animation-delay: 0.5s;
+.activeIcon{
+    animation-delay: 0.8s;
+    border: solid 2px rgba(255,255,255,0.5) !important;
+    background-color: rgba(255,255,255,0.5) !important;
 }
 .headButton svg {
     width: 3rem;
