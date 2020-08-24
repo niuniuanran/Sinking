@@ -1,9 +1,11 @@
 import React from 'react';
-import Menu from "./menu/Menu";
+import HeadBar from "./head/HeadBar";
+import Body from "./body/Body";
 
 const App = () => (
-      <div className={"app"}>
-      <Menu />
+      <div>
+          <HeadBar/>
+          <Body/>
       </div>
   );
 

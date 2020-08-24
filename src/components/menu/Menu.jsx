@@ -17,8 +17,10 @@ import AssignmentIcon from "@material-ui/icons/Assignment";
 // use styles from material-ui
 const useStyles = makeStyles(theme => ({
     grid: {
-        height: "100%",
-    },
+        height: "100vh",
+        overflow: "scroll",
+        backgroundImage: "linear-gradient(to bottom, #054985 20vh, #032542 80vh)"
+},
     tabs: {
         borderRight: `1px solid ${theme.palette.divider}`,
     },
