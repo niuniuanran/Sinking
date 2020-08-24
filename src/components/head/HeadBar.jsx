@@ -9,11 +9,11 @@ export default function HeadBar() {
     return <div>
         <div className={style.headBar}>
             <Grid container>
-                <Grid className={style.titles} item xs={12} sm={6}>
+                <Grid className={style.titles} item sm={12} md={6}>
                     <span className={style.title}>Sinking</span>
                     <span className={style.subtitle}>the Titanic story</span>
                 </Grid>
-                <Grid item xs={12} sm={6} container spacing={5} className={style.buttons}>
+                <Grid item sm={12} md={6} container spacing={10} className={style.buttons}>
                     <Grid item xs={6}>
                         <IconButton size={"medium"} className={`${style.headButton} ${style.peopleButton}`}>
                             <PeopleIcon/>

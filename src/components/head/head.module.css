@@ -1,31 +1,39 @@
 .headBar {
-    height: 5rem;
     width: 100%;
     font-family: 'Chelsea Market', cursive;
     z-index: 1;
     position: fixed;
+    top: 3rem;
 }
 
 .title {
     font-size: 5rem;
     font-weight: bold;
-    margin-left: 1.5rem;
+    margin-left: 2.5rem;
+    position: relative;
+    bottom: 2rem;
 }
 
 .subtitle {
     margin-left: 1rem;
     color: #8e9191;
+    position: relative;
+    bottom: 1rem;
 }
 
 .titles{
     display: inline-block;
     animation: float 4s linear infinite;
     position: relative;
-    top: 1rem;
 }
 .buttons{
     position: relative;
-    top: 3rem;
+}
+@media screen and (max-width: 960px) {
+    .buttons{
+        position: relative;
+        left: 3rem;
+    }
 }
 .headButton {
     animation: float 1.5s linear infinite;
