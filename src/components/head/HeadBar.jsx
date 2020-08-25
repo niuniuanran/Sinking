@@ -14,7 +14,7 @@ export default function HeadBar({onButtonSwitch: onPanelSwitch}) {
                     <span className={style.title}>Sinking</span>
                     <span className={style.subtitle}>the Titanic story</span>
                 </Grid>
-                <Grid item sm={12} md={6} container spacing={10} className={style.buttons}>
+                <Grid item sm={12} md={6} container spacing={10} className={style.buttonContainer}>
                     <Grid item xs={6}>
                         <IconButton size={"medium"} className={`${style.headButton} ${onPeoplePanel && style.activeIcon}`}
                                     onClick={() => {

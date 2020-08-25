@@ -27,12 +27,13 @@
     position: relative;
 }
 
-.buttons {
+.buttonContainer {
     position: relative;
+    pointer-events: none;
 }
 
 @media screen and (max-width: 960px) {
-    .buttons {
+    .buttonContainer {
         position: relative;
         left: 16vw;
     }
@@ -43,6 +44,7 @@
     width: 4rem;
     height: 4rem;
     color: rgba(0, 0, 0, 0.64) !important;
+    pointer-events: all;
 }
 
 .activeIcon {
