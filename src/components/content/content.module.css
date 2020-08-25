@@ -2,3 +2,19 @@
     width: 2.5rem;
     height: 2.5rem;
 }
+
+.visuallyHidden{
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1rem;
+    margin: -1rem ;
+    overflow: hidden;
+    padding: 0;
+    position:absolute;
+    top: 20rem;
+    width: 1rem;
+}
+
+.paper{
+    width: 100% !important;
+}
