@@ -28,6 +28,9 @@ $ npm start
 
 ### Filter Passengers
 
-### Survival statistics
+<img src="./doc/screen-shot/filter.gif" width="800px" alt="filter-preview"/>
 
+### Survival Statistics Visualisation
+
+<img src="./doc/screen-shot/stats.gif" width="800px" alt="stats-preview"/>
 
