@@ -175,7 +175,7 @@ function PeopleTableHead({order, orderBy, onRequestSort}) {
 
 function PeopleTableTitle({handleFilterChange, dense}) {
     const [filterOn, setFilterOn] = useState(false);
-    return <><Toolbar>
+    return <><Toolbar className={dense && style.narrowToolBar}>
         <Typography variant={dense ? "h6" : "h5"} id="tableTitle" component="div" style={{flex: "1 1 100%"}}>
             Passengers on Titanic
         </Typography>

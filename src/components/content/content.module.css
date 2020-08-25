@@ -17,6 +17,9 @@
     top: 20rem;
     width: 1rem;
 }
+.narrowToolBar{
+    min-height: 55px!important;
+}
 
 .paper{
     width: 100% !important;

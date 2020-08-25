@@ -8,7 +8,5 @@ body {
 }
 
 html {
-  margin: 0;
-  padding: 0;
   background-image: linear-gradient(to bottom, #054985 30vh, #032542 90vh);
 }
