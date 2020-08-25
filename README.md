@@ -6,7 +6,16 @@ The story of Titanic, by data. https://sinking.azurewebsites.net/
 
 Created by Anran Niu, August 2020
 
-## Run the App Locally
+## Acknowledgements
+
+### Why this project
+
+I started working on this project as a task for a cool company, [Quantiful](https://quantiful.ai/)'s front end intern recruitment. It turns out to be fun and lots of new learning. Thank you Quantiful for such a special opportunity to explore data presentation!
+### Wave Effect
+
+The wave effect is largely inspired by a Codepen.io project, [CSS Wave Animation with a .png](https://codepen.io/plavookac/pen/QMwObb) by [@plavookac](https://codepen.io/plavookac), and uses CSS code and png image from it.
+
+## How to Run the App Locally
 ```
 $ git clone https://github.com/niuniuanran/Sinking.git sinking
 $ cd sinking
@@ -34,3 +43,10 @@ $ npm start
 
 <img src="./doc/screen-shot/stats.gif" width="800px" alt="stats-preview"/>
 
+## Next Steps 
+
+### Small Screen View
+At this moment, the web page only works well on Desktop, and it will be nice if supports could be added for small screen.
+
+### More Stats Visualisation
+There is potential for more visualisation on the data to explore patterns and provide insights - for example, showing the cross-effect of gender * price * survival number.
