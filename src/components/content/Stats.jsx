@@ -20,28 +20,28 @@ export default function Stats({peopleRecord}) {
 
     const surviveByGender = [
         {
-            "Gender": 'Male', "Survived": countByFilter({sex: "Male", survived: "Yes"}),
-            "Not Survived": countByFilter({sex: "Male", survived: "No"}),
+            "Gender": 'Male', "Survivors": countByFilter({sex: "Male", survived: "Yes"}),
+            "Victims": countByFilter({sex: "Male", survived: "No"}),
         },
         {
-            "Gender": 'Female', "Survived": countByFilter({sex: "Female", survived: "Yes"}),
-            "Not Survived": countByFilter({sex: "Female", survived: "No"})
+            "Gender": 'Female', "Survivors": countByFilter({sex: "Female", survived: "Yes"}),
+            "Victims": countByFilter({sex: "Female", survived: "No"})
         },
     ];
     const surviveByFare = [
         {
-            "Fare": 'Cheap (< $20)', "Survived": countByFilter({fare: "Cheap", survived: "Yes"}),
-            "Not Survived": countByFilter({fare: "Cheap", survived: "No"}),
+            "Fare": 'Cheap (< $20)', "Survivors": countByFilter({fare: "Cheap", survived: "Yes"}),
+            "Victims": countByFilter({fare: "Cheap", survived: "No"}),
         },
         {
             "Fare": 'Regular',
-            "Survived": countByFilter({fare: "Regular", survived: "Yes"}),
-            "Not Survived": countByFilter({fare: "Regular", survived: "No"}),
+            "Survivors": countByFilter({fare: "Regular", survived: "Yes"}),
+            "Victims": countByFilter({fare: "Regular", survived: "No"}),
         },
         {
             "Fare": 'Expensive (> $100)',
-            "Survived": countByFilter({fare: "Expensive", survived: "Yes"}),
-            "Not Survived": countByFilter({fare: "Expensive", survived: "No"}),
+            "Survivors": countByFilter({fare: "Expensive", survived: "Yes"}),
+            "Victims": countByFilter({fare: "Expensive", survived: "No"}),
         },
 
     ];
@@ -65,8 +65,8 @@ export default function Stats({peopleRecord}) {
                             <YAxis/>r
                             <Tooltip/>
                             <Legend/>
-                            <Bar dataKey="Survived" stackId="a" fill={colourSurvive}/>
-                            <Bar dataKey="Not Survived" stackId="a" fill={colourNotSurvive}/>
+                            <Bar dataKey="Survivors" stackId="a" fill={colourSurvive}/>
+                            <Bar dataKey="Victims" stackId="a" fill={colourNotSurvive}/>
                         </BarChart>
                     </CardContent>
                 </Card>
@@ -88,8 +88,8 @@ export default function Stats({peopleRecord}) {
                             <YAxis/>r
                             <Tooltip/>
                             <Legend/>
-                            <Bar dataKey="Survived" stackId="a" fill={colourSurvive}/>
-                            <Bar dataKey="Not Survived" stackId="a" fill={colourNotSurvive}/>
+                            <Bar dataKey="Survivors" stackId="a" fill={colourSurvive}/>
+                            <Bar dataKey="Victims" stackId="a" fill={colourNotSurvive}/>
                         </BarChart>
                     </CardContent>
                 </Card>
