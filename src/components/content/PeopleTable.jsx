@@ -18,7 +18,6 @@ import Grid from "@material-ui/core/Grid";
 import DialogActions from "@material-ui/core/DialogActions";
 import Button from "@material-ui/core/Button";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
-
 export default function PeopleTable({peopleRecord}) {
     const [order, setOrder] = useState('asc');
     const [orderBy, setOrderBy] = useState('name');
@@ -112,7 +111,6 @@ const headCells = [
 ];
 
 function passFilter(person, filter) {
-    console.log(filter[0].options);
     return headCells.filter(c => c.options).reduce(
         (pass, item, index) => pass && filter[index].options.includes(convertRawToDisplay(person, item.id)),
         true);
@@ -262,3 +260,5 @@ function FilterDialog({onOk, open, onClose}) {
         </DialogActions>
     </Dialog>
 }
+
+export {convertRawToDisplay};
