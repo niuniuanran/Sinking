@@ -24,7 +24,6 @@ export default function PeopleTable({peopleRecord}) {
     const [order, setOrder] = React.useState('asc');
     const [orderBy, setOrderBy] = React.useState('name');
     const [page, setPage] = React.useState(0);
-    const [dense, setDense] = React.useState(false);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
     const handleRequestSort = (event, property) => {
@@ -38,15 +37,14 @@ export default function PeopleTable({peopleRecord}) {
     const handleChangeRowsPerPage = (event) => {
         setRowsPerPage(parseInt(event.target.value, 10));
         setPage(0);
-        setDense(() => rowsPerPage > 6);
     };
 
     return <Paper className={style.paper}>
         <PeopleTableTitle/>
         <Table
-            aria-labelledby="tableTitle"
-            size={dense ? 'small' : 'medium'}
-            aria-label="enhanced table"
+            aria-labelledby="peopleTableTitle"
+            size={rowsPerPage < 6 ? 'medium' : 'small'}
+            aria-label="passenger table"
         >
             <PeopleTableHead orderBy={orderBy}
                              order={order}
@@ -55,30 +53,28 @@ export default function PeopleTable({peopleRecord}) {
             <TableBody>
                 {stableSort(peopleRecord, getComparator(order, orderBy))
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                    .map((personRecord, index) => {
-                        const labelId = `enhanced-table-checkbox-${index}`;
-                        return (
-                            <TableRow
-                                hover
-                                // onClick={(event) => handleClick(event, row.name)}
-                                role="checkbox"
-                                tabIndex={-1}
-                                key={personRecord.recordid}
-                            >
-                                <TableCell component="th" id={labelId} scope="row" align="left">
-                                    {personRecord.fields.name}
-                                </TableCell>
-                                <TableCell align="left">
-                                    {personRecord.fields.sex}
-                                </TableCell>
-                                <TableCell align="left">
-                                    {embarkPort[personRecord.fields.embarked] || "No Record"}
-                                </TableCell>
-                                <TableCell align="left">{ticketFare(personRecord.fields.fare)}</TableCell>
-                                <TableCell align="left">{personRecord.fields.survived}</TableCell>
-                            </TableRow>
-                        );
-                    })}
+                    .map((personRecord, index) => <TableRow
+                            hover
+                            role="checkbox"
+                            tabIndex={-1}
+                            key={personRecord.recordid}>
+                            <TableCell align="left">
+                                {personRecord.fields.name}
+                            </TableCell>
+                            <TableCell align="left">
+                                {personRecord.fields.sex}
+                            </TableCell>
+                            <TableCell align="left">
+                                {embarkPort[personRecord.fields.embarked] || "No Record"}
+                            </TableCell>
+                            <TableCell align="left">
+                                {ticketFare(personRecord.fields.fare)}
+                            </TableCell>
+                            <TableCell align="left">
+                                {personRecord.fields.survived}
+                            </TableCell>
+                        </TableRow>
+                    )}
             </TableBody>
 
         </Table>
@@ -169,7 +165,7 @@ function PeopleTableHead({order, orderBy, onRequestSort}) {
 function PeopleTableTitle() {
     return <Toolbar>
         <Typography variant="h5" id="tableTitle" component="div" style={{flex: "1 1 100%"}}>
-            People on Titanic
+            Passengers on Titanic
         </Typography>
 
         <Tooltip title="Filter People">
