@@ -1,0 +1,14 @@
+.foot {
+    position: fixed;
+    bottom: 3px;
+    width: 100vw;
+    margin: 0 auto;
+    color: #aaaaaa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.socialButton svg{
+    color: #aaaaaa!important;
+}
