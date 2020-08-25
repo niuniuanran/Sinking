@@ -72,7 +72,6 @@ const headCells = [
     { id: 'carbs', numeric: true, disablePadding: false, label: 'Carbs (g)' },
     { id: 'protein', numeric: true, disablePadding: false, label: 'Protein (g)' },
 ];
-
 function EnhancedTableHead(props) {
     const { classes, onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } = props;
     const createSortHandler = (property) => (event) => {
@@ -136,7 +135,6 @@ const useToolbarStyles = makeStyles((theme) => ({
         flex: '1 1 100%',
     },
 }));
-
 const EnhancedTableToolbar = (props) => {
     const classes = useToolbarStyles();
     const { numSelected } = props;
@@ -173,8 +171,6 @@ const EnhancedTableToolbar = (props) => {
         </Toolbar>
     );
 };
-
-
 const useStyles = makeStyles((theme) => ({
     root: {
         width: '100%',

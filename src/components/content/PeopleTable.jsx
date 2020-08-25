@@ -1,30 +1,32 @@
-import React from "react";
+import React, {useState} from "react";
 import {
-    Table,
-    TableCell,
-    TableRow,
-    TableBody,
-    TableHead,
+    Table, TableCell, TableRow, TableBody, TableHead,
     Toolbar,
     Paper,
     Tooltip,
     IconButton,
-    Typography
+    Typography, Dialog,
+    TablePagination,
+    TableSortLabel, Checkbox
 } from "@material-ui/core";
 import FilterListIcon from "@material-ui/icons/FilterList";
-import TableSortLabel from "@material-ui/core/TableSortLabel";
 
 import style from './content.module.css'
-import Checkbox from "@material-ui/core/Checkbox";
-import TablePagination from "@material-ui/core/TablePagination";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import DialogContent from "@material-ui/core/DialogContent";
+import Grid from "@material-ui/core/Grid";
+import DialogActions from "@material-ui/core/DialogActions";
+import Button from "@material-ui/core/Button";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
 
 
 export default function PeopleTable({peopleRecord}) {
 
-    const [order, setOrder] = React.useState('asc');
-    const [orderBy, setOrderBy] = React.useState('name');
-    const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(5);
+    const [order, setOrder] = useState('asc');
+    const [orderBy, setOrderBy] = useState('name');
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(5);
+    const [filter, setFilter] = useState({});
 
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === 'asc';
@@ -40,7 +42,7 @@ export default function PeopleTable({peopleRecord}) {
     };
 
     return <Paper className={style.paper}>
-        <PeopleTableTitle/>
+        <PeopleTableTitle handleFilterChange={f => setFilter(f)}/>
         <Table
             aria-labelledby="peopleTableTitle"
             size={rowsPerPage < 6 ? 'medium' : 'small'}
@@ -91,19 +93,19 @@ export default function PeopleTable({peopleRecord}) {
 
     </Paper>
 }
+const embarkPort = {"Q": "Queenstown", "C": "Cherbourg", "S": "Southampton"};
+const ticketFare = price => price < 20 ? "cheap" : (price > 100 ? "expensive" : "regular");
 
 const headCells = [
     {id: 'name', numeric: false, disablePadding: false, label: 'Name'},
-    {id: 'sex', numeric: false, disablePadding: false, label: 'Gender'},
+    {id: 'sex', numeric: false, disablePadding: false, label: 'Gender', options: ["Male", "Female"]},
     // show passengers based upon where they embarked
-    {id: 'embarked', numeric: true, disablePadding: false, label: 'Port of Embarkation'},
-    {id: 'fare', numeric: true, disablePadding: false, label: 'Fare'},
+    {id: 'embarked', numeric: true, disablePadding: false, label: 'Port of Embarkation', options: embarkPort.values},
+    {id: 'fare', numeric: true, disablePadding: false, label: 'Fare', options: ["Cheap", "Regular", "Expensive"]},
     //show passengers that did or did not survive
-    {id: 'survived', numeric: true, disablePadding: false, label: 'Survived'}
+    {id: 'survived', numeric: true, disablePadding: false, label: 'Survived', options: ["Yes", "No"]}
 ];
 
-const embarkPort = {"Q": "Queenstown", "C": "Cherbourg", "S": "Southampton"};
-const ticketFare = price => price < 20 ? "cheap" : (price > 100 ? "expensive" : "regular");
 
 function stableSort(array, comparator) {
     const stabilizedThis = array.map((el, index) => [el, index]);
@@ -162,16 +164,87 @@ function PeopleTableHead({order, orderBy, onRequestSort}) {
     </TableHead>;
 }
 
-function PeopleTableTitle() {
-    return <Toolbar>
+function PeopleTableTitle({handleFilterChange}) {
+    const [filterOn, setFilterOn] = useState(false);
+    return <><Toolbar>
         <Typography variant="h5" id="tableTitle" component="div" style={{flex: "1 1 100%"}}>
             Passengers on Titanic
         </Typography>
 
-        <Tooltip title="Filter People">
-            <IconButton aria-label="filter people" size={'medium'} className={style.button}>
+        <Tooltip title="Filter Passengers">
+            <IconButton aria-label="filter passengers" size={'medium'} className={style.button}
+                        onClick={() => setFilterOn(true)}>
                 <FilterListIcon/>
             </IconButton>
         </Tooltip>
     </Toolbar>
+        <FilterDialog open={filterOn} onClose={() => setFilterOn(false)}
+                      onOk={(filter) => {
+                          handleFilterChange(filter);
+                          setFilterOn(false)
+                      }}/>
+    </>
+}
+
+function FilterDialog({onOk, open, onClose}) {
+    const filterFullOptions = headCells.filter(c => c.options);
+    const [filter, setFilter] = useState(filterFullOptions);
+    console.log(filter);
+    const handleFilterChange = (event, group) => {
+        const changedOption = event.target.name;
+        const checked = event.target.checked;
+        const updatedFilter = filter.map(criteria => {
+            if (criteria.label !== group.label) return criteria;
+            return {
+                ...criteria,
+                options:(checked ?
+                    [...criteria.options, changedOption]
+                    :
+                    criteria.options.filter(o => o !== changedOption))
+            }
+        });
+        setFilter(() => updatedFilter);
+    };
+    return <Dialog
+        aria-labelledby="filter-dialog"
+        onClose={onClose}
+        open={open}
+    >
+        <DialogTitle id="filter-dialog-title">
+            Filter Passengers
+        </DialogTitle>
+        <DialogContent>
+            <Grid container spacing={3}>
+                {
+                    filterFullOptions.map((criteria, criteriaIndex) =>
+                        <Grid item xs={12} container key={criteriaIndex}>
+                            <Grid xs={12} item>
+                                <Typography variant="h6">
+                                    {criteria.label}
+                                </Typography>
+                            </Grid>
+                            {criteria.options.map((option, optionIndex) =>
+                                <Grid item md={2} xs={12 / criteria.options.length} key={optionIndex}>
+                                    <FormControlLabel
+                                        control={
+                                            <Checkbox checked={filter[criteriaIndex].options.includes(option)}
+                                                      name={option} onChange={event=>handleFilterChange(event, criteria)}/>}
+                                        label={option}
+                                    />
+                                </Grid>)
+                            }
+                        </Grid>
+                    )
+                }
+            </Grid>
+        </DialogContent>
+        <DialogActions>
+            <Button onClick={onClose}>
+                Cancel
+            </Button>
+            <Button onClick={() => onOk(filter)}>
+                Filter
+            </Button>
+        </DialogActions>
+    </Dialog>
 }
