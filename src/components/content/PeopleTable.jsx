@@ -26,7 +26,7 @@ export default function PeopleTable({peopleRecord}) {
     const [orderBy, setOrderBy] = useState('name');
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
-    const [filter, setFilter] = useState({});
+    const [filter, setFilter] = useState(headCells.filter(c => c.options));
 
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === 'asc';
@@ -41,6 +41,8 @@ export default function PeopleTable({peopleRecord}) {
         setPage(0);
     };
 
+    const peoplePassingFilter = peopleRecord.filter(p => passFilter(p, filter));
+
     return <Paper className={style.paper}>
         <PeopleTableTitle handleFilterChange={f => setFilter(f)}/>
         <Table
@@ -53,28 +55,17 @@ export default function PeopleTable({peopleRecord}) {
                              onRequestSort={handleRequestSort}
                              rowCount={peopleRecord.length}/>
             <TableBody>
-                {stableSort(peopleRecord, getComparator(order, orderBy))
+                {stableSort(peoplePassingFilter, getComparator(order, orderBy))
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((personRecord, index) => <TableRow
                             hover
                             role="checkbox"
                             tabIndex={-1}
                             key={personRecord.recordid}>
-                            <TableCell align="left">
-                                {personRecord.fields.name}
-                            </TableCell>
-                            <TableCell align="left">
-                                {personRecord.fields.sex}
-                            </TableCell>
-                            <TableCell align="left">
-                                {embarkPort[personRecord.fields.embarked] || "No Record"}
-                            </TableCell>
-                            <TableCell align="left">
-                                {ticketFare(personRecord.fields.fare)}
-                            </TableCell>
-                            <TableCell align="left">
-                                {personRecord.fields.survived}
-                            </TableCell>
+                            {headCells.map((item, i) =>
+                                <TableCell align="left" key={i}>
+                                    {convertRawToDisplay(personRecord, item.id)}
+                                </TableCell>)}
                         </TableRow>
                     )}
             </TableBody>
@@ -84,7 +75,7 @@ export default function PeopleTable({peopleRecord}) {
         <TablePagination
             rowsPerPageOptions={[5, 10]}
             component="div"
-            count={peopleRecord.length}
+            count={peoplePassingFilter.length}
             rowsPerPage={rowsPerPage}
             page={page}
             onChangePage={handleChangePage}
@@ -94,7 +85,17 @@ export default function PeopleTable({peopleRecord}) {
     </Paper>
 }
 const embarkPort = {"Q": "Queenstown", "C": "Cherbourg", "S": "Southampton"};
-const ticketFare = price => price < 20 ? "cheap" : (price > 100 ? "expensive" : "regular");
+const ticketFare = price => price < 20 ? "Cheap" : (price > 100 ? "Expensive" : "Regular");
+
+function convertRawToDisplay(person, itemId) {
+    const raw = person.fields[itemId];
+    if (itemId === "embarked") return embarkPort[person.fields[itemId]];
+    if (itemId === "fare") return ticketFare(person.fields[itemId]);
+    if (itemId === "sex") return toCapitalCase(person.fields[itemId]);
+    else return raw;
+}
+
+const toCapitalCase = s=> s.charAt(0).toUpperCase() + s.slice(1);
 
 const headCells = [
     {id: 'name', numeric: false, disablePadding: false, label: 'Name'},
@@ -106,6 +107,12 @@ const headCells = [
     {id: 'survived', numeric: true, disablePadding: false, label: 'Survived', options: ["Yes", "No"]}
 ];
 
+function passFilter(person, filter) {
+    console.log(filter[0].options);
+    return headCells.filter(c=>c.options).reduce(
+        (pass, item, index) => pass && filter[index].options.includes(convertRawToDisplay(person, item.id)),
+        true);
+}
 
 function stableSort(array, comparator) {
     const stabilizedThis = array.map((el, index) => [el, index]);
@@ -189,7 +196,6 @@ function PeopleTableTitle({handleFilterChange}) {
 function FilterDialog({onOk, open, onClose}) {
     const filterFullOptions = headCells.filter(c => c.options);
     const [filter, setFilter] = useState(filterFullOptions);
-    console.log(filter);
     const handleFilterChange = (event, group) => {
         const changedOption = event.target.name;
         const checked = event.target.checked;
@@ -197,7 +203,7 @@ function FilterDialog({onOk, open, onClose}) {
             if (criteria.label !== group.label) return criteria;
             return {
                 ...criteria,
-                options:(checked ?
+                options: (checked ?
                     [...criteria.options, changedOption]
                     :
                     criteria.options.filter(o => o !== changedOption))
@@ -214,10 +220,10 @@ function FilterDialog({onOk, open, onClose}) {
             Filter Passengers
         </DialogTitle>
         <DialogContent>
-            <Grid container spacing={3}>
+            <Grid container spacing={0}>
                 {
                     filterFullOptions.map((criteria, criteriaIndex) =>
-                        <Grid item xs={12} container key={criteriaIndex}>
+                        <Grid item xs={12} container key={criteriaIndex} spacing={0}>
                             <Grid xs={12} item>
                                 <Typography variant="h6">
                                     {criteria.label}
@@ -227,8 +233,11 @@ function FilterDialog({onOk, open, onClose}) {
                                 <Grid item md={2} xs={12 / criteria.options.length} key={optionIndex}>
                                     <FormControlLabel
                                         control={
-                                            <Checkbox checked={filter[criteriaIndex].options.includes(option)}
-                                                      name={option} onChange={event=>handleFilterChange(event, criteria)}/>}
+                                            <Checkbox
+                                                checked={filter[criteriaIndex].options.includes(option)}
+                                                name={option}
+                                                onChange={event => handleFilterChange(event, criteria)}/>
+                                        }
                                         label={option}
                                     />
                                 </Grid>)
