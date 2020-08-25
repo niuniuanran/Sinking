@@ -13,7 +13,6 @@ export default function Body({currentPanel}) {
             .then(res => res.json())
             .then(json => {
                 setPeople(json.records
-                    // Only passenger who has paid for a fare will be displayed.
                     .filter(p => p.fields.fare && p.fields.fare > 0));
                 setLoading(false);
             });
@@ -22,6 +21,6 @@ export default function Body({currentPanel}) {
     return <div className={style.body}>
         {loading && <CircularProgress className={style.loading}/>}
         {!loading && currentPanel === 'people' && <PeopleTable peopleRecord={people}/>}
-        {!loading && currentPanel === 'stats' && <Stats/>}
+        {!loading && currentPanel === 'stats' && <Stats peopleRecord={people}/>}
     </div>
 }
