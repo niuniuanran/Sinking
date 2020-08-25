@@ -2,8 +2,8 @@ import React, {useEffect, useState} from 'react';
 import style from './body.module.css'
 import CircularProgress from "@material-ui/core/CircularProgress";
 
-import PeopleTable from "../content/PeopleTable";
-import Stats from "../content/Stats";
+import PeopleTable from "./PeopleTable";
+import Stats from "./Stats";
 
 export default function Body({currentPanel}) {
     const [people, setPeople] = useState([]);

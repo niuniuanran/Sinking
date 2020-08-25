@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import HeadBar from "./head/HeadBar";
-import Body from "./body/Body";
+import Body from "./content/Body";
 
 export default function App() {
     const [currentPanel, setCurrentPanel] = useState('people');
