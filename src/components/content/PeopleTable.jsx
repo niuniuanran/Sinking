@@ -42,9 +42,10 @@ export default function PeopleTable({peopleRecord}) {
     };
 
     const peoplePassingFilter = peopleRecord.filter(p => passFilter(p, filter));
+    const emptyRows = rowsPerPage - Math.min(rowsPerPage, peoplePassingFilter.length - page * rowsPerPage);
 
     return <Paper className={style.paper}>
-        <PeopleTableTitle handleFilterChange={f => setFilter(f)}/>
+        <PeopleTableTitle handleFilterChange={f => setFilter(f)} dense={rowsPerPage > 5}/>
         <Table
             aria-labelledby="peopleTableTitle"
             size={rowsPerPage < 6 ? 'medium' : 'small'}
@@ -68,6 +69,11 @@ export default function PeopleTable({peopleRecord}) {
                                 </TableCell>)}
                         </TableRow>
                     )}
+                {emptyRows > 0 && (
+                    <TableRow style={{height: (rowsPerPage < 6 ? 50 : 30) * emptyRows}}>
+                        <TableCell colSpan={6}/>
+                    </TableRow>
+                )}
             </TableBody>
 
         </Table>
@@ -95,13 +101,13 @@ function convertRawToDisplay(person, itemId) {
     else return raw;
 }
 
-const toCapitalCase = s=> s.charAt(0).toUpperCase() + s.slice(1);
+const toCapitalCase = s => s.charAt(0).toUpperCase() + s.slice(1);
 
 const headCells = [
     {id: 'name', numeric: false, disablePadding: false, label: 'Name'},
     {id: 'sex', numeric: false, disablePadding: false, label: 'Gender', options: ["Male", "Female"]},
     // show passengers based upon where they embarked
-    {id: 'embarked', numeric: true, disablePadding: false, label: 'Port of Embarkation', options: embarkPort.values},
+    {id: 'embarked', numeric: true, disablePadding: false, label: 'Port of Embarkation'},
     {id: 'fare', numeric: true, disablePadding: false, label: 'Fare', options: ["Cheap", "Regular", "Expensive"]},
     //show passengers that did or did not survive
     {id: 'survived', numeric: true, disablePadding: false, label: 'Survived', options: ["Yes", "No"]}
@@ -109,7 +115,7 @@ const headCells = [
 
 function passFilter(person, filter) {
     console.log(filter[0].options);
-    return headCells.filter(c=>c.options).reduce(
+    return headCells.filter(c => c.options).reduce(
         (pass, item, index) => pass && filter[index].options.includes(convertRawToDisplay(person, item.id)),
         true);
 }
@@ -171,15 +177,16 @@ function PeopleTableHead({order, orderBy, onRequestSort}) {
     </TableHead>;
 }
 
-function PeopleTableTitle({handleFilterChange}) {
+function PeopleTableTitle({handleFilterChange, dense}) {
     const [filterOn, setFilterOn] = useState(false);
     return <><Toolbar>
-        <Typography variant="h5" id="tableTitle" component="div" style={{flex: "1 1 100%"}}>
+        <Typography variant={dense ? "h6" : "h5"} id="tableTitle" component="div" style={{flex: "1 1 100%"}}>
             Passengers on Titanic
         </Typography>
 
         <Tooltip title="Filter Passengers">
-            <IconButton aria-label="filter passengers" size={'medium'} className={style.button}
+            <IconButton aria-label="filter passengers" size={dense ? 'small' : 'medium'}
+                        className={dense ? style.smallButton : style.button}
                         onClick={() => setFilterOn(true)}>
                 <FilterListIcon/>
             </IconButton>
