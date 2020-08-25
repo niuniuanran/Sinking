@@ -18,6 +18,7 @@ import Grid from "@material-ui/core/Grid";
 import DialogActions from "@material-ui/core/DialogActions";
 import Button from "@material-ui/core/Button";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
+
 export default function PeopleTable({peopleRecord}) {
     const [order, setOrder] = useState('asc');
     const [orderBy, setOrderBy] = useState('name');
@@ -29,6 +30,7 @@ export default function PeopleTable({peopleRecord}) {
         const isAsc = orderBy === property && order === 'asc';
         setOrder(isAsc ? 'desc' : 'asc');
         setOrderBy(property);
+        setPage(0);
     };
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -42,7 +44,10 @@ export default function PeopleTable({peopleRecord}) {
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, peoplePassingFilter.length - page * rowsPerPage);
 
     return <Paper className={style.paper}>
-        <PeopleTableTitle handleFilterChange={f => setFilter(f)} dense={rowsPerPage > 5}/>
+        <PeopleTableTitle handleFilterChange={f => {
+            setFilter(f);
+            setPage(0);
+        }} dense={rowsPerPage > 5}/>
         <Table
             aria-labelledby="peopleTableTitle"
             size={rowsPerPage < 6 ? 'medium' : 'small'}
